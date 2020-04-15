@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 var express = require('express');
+var cors = require('cors');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
@@ -10,6 +11,7 @@ require('./models/User');
 var requireToken = require('./middleware/requireToken');
 var authRoutes = require('./routes/authRoutes');
 app.use(bodyParser.json());
+app.use(cors());
 app.use(authRoutes);
 
 mongoose.connect(mogoUrl);

@@ -41,7 +41,7 @@ class Signin extends Component {
     this.setState({password: text});
   };
   handleSubmit = () => {
-    alert("HEllo")
+    
   };
   changePage = () => {
     this.setState;

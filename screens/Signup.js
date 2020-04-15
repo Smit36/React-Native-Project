@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-return-assign */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-alert */
@@ -21,9 +22,9 @@ import {
   StatusBar,
   Button,
   Image,
+  AsyncStorage,
   TextInput,
 } from 'react-native';
-
 class Signup extends Component {
   constructor() {
     super();
@@ -33,30 +34,34 @@ class Signup extends Component {
     };
   }
 
-  handleUsername = (text) => {
+  handleUsername = text => {
     this.setState({username: text});
   };
-  handlePassword = (text) => {
+  handlePassword = text => {
     this.setState({password: text});
   };
-  handleSubmit = () => {
+  handleSubmit = async () => {
+    alert(this.state.username);
+
     fetch('http://192.168.0.107:3033/signup', {
       method: 'POST',
-      header: {
+      headers: {
         Accept: 'applcation/json',
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
         username: this.state.username,
         password: this.state.password,
-      },
+      }),
     })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((resJson) => {
-        alert(resJson);
+      .then(res => res.json())
+      .then(async data => {
+        try {
+          console.log(data);
+          await AsyncStorage.setItem('token', data.token);
+        } catch (e) {
+          console.log('error encountered', e);
+        }
       });
   };
   render() {
